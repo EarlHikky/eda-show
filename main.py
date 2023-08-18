@@ -32,7 +32,7 @@ def main():
         with ThreadPoolExecutor(max_workers=10) as executor:
             executor.map(lambda p: scrape_page(p, session, recipes), range(1, pages_count(session) + 1))
 
-    with open('recipes4.json', 'w') as file:
+    with open('recipes.json', 'w') as file:
         json.dump(recipes, file)
 
 
