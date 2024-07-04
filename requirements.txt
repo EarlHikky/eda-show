@@ -1,8 +1,4 @@
 beautifulsoup4==4.12.2
-certifi==2023.7.22
-charset-normalizer==3.2.0
-idna~>3.8
-lxml==4.9.3
-requests~>2.32.0
-soupsieve==2.4.1
-urllib3~> 2.2.2
+requests~=2.32.0
+tqdm~=4.66.4
+# ollama~=0.2.1
