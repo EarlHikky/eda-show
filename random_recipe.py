@@ -1,9 +1,37 @@
 from argparse import ArgumentParser
-from json import load
+from json import load, loads
 from random import choice
+from aiofiles import open as aopen
+from typing import Tuple, Dict, Any
 
 
-def get_random_recipe(recipe_type: str = None) -> tuple:
+async def get_random_recipe_async(recipe_type: str = None) -> Tuple[str, Dict[str, Any]]:
+    """
+    Choose a random recipe from the 'recipes.json' file.
+
+    Args:
+        recipe_type (str, optional): The type of recipe to choose from. If not provided, a random recipe type is chosen.
+
+    Returns:
+        tuple: A tuple containing the name of the chosen recipe and its URL.
+    """
+    # Open the 'recipes.json' file and load its contents into a dictionary asynchronously
+    async with aopen('/home/earl/PycharmProjects/eda-show/recipes.json', 'r') as file:
+        contents = await file.read()
+        recipes = loads(contents)
+
+    # If no recipe type is provided, choose a random recipe type from the dictionary keys
+    if recipe_type is None:
+        recipe_type = choice(list(recipes.keys()))
+
+    # Choose a random recipe from the chosen recipe type's dictionary items
+    random_choice = choice(list(recipes[recipe_type].items()))
+
+    # Return the chosen recipe as a tuple
+    return random_choice
+
+
+def get_random_recipe(recipe_type: str = None) -> Tuple[str, Dict[str, Any]]:
     """
     Choose a random recipe from the 'recipes.json' file.
 
@@ -14,7 +42,7 @@ def get_random_recipe(recipe_type: str = None) -> tuple:
         tuple: A tuple containing the name of the chosen recipe and its URL.
     """
     # Open the 'recipes.json' file and load its contents into a dictionary
-    with open('recipes.json', 'r') as file:
+    with open('/home/earl/PycharmProjects/eda-show/recipes.json', 'r') as file:
         recipes = load(file)
 
     # If no recipe type is provided, choose a random recipe type from the dictionary keys
